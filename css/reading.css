@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    height: 90vh;
+  }
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.passageTitle {
+    text-align: center;
+}
+
+.passageSmallTitle {
+    text-align: center;
+    font-style: italic;
+}
+
+.sidebar,
+.mainQuestion {
+    flex: 1 2;
+    padding: 0rem 1rem;
+    overflow-y: scroll;
+}
+
+.mainQuestion{
+    line-height: 2;
+}
