@@ -88,7 +88,35 @@ const questionTask6 = [
     "Ancient Rome and piracy",
     "Piracy was an issue ancient Rome had to deal with, but it also brought some benefits for Rome. For example, pirates supplied slaves that were important for Rome’s industries. However, attacks on vessels transporting %QQQQ resulted in calls for %QQQQ piracy continued, with some pirates demanding a %QQQQ of the Roman officials they captured."
 ]
-const questionTask7 = []
+const questionTask7 = [
+    "What point does the writer make about misinformation in the first paragraph?",
+    "Misinformation is a relatively recent phenomenon.",
+    "Some people find it easy to identify misinformation.",
+    "Misinformation changes as it is passed from one person to another.",
+    "There may be a number of reasons for the spread of misinformation.",
+    "What does the writer say about the role of technology?",
+    "It may at some point provide us with a solution to misinformation.",
+    "It could fundamentally alter the way in which people regard information.",
+    "It has changed the way in which organisations use misinformation.",
+    "It has made it easier for people to check whether information is accurate.",
+    "What is the writer doing in the fourth paragraph?",
+    "comparing the different opinions people have of misinformation",
+    "explaining how the effects of misinformation have changed over time",
+    "outlining which issues connected with misinformation are significant today",
+    "describing the attitude of policy makers towards misinformation in the media",
+    "What point does the writer make about regulation in the USA?",
+    "The guidelines issued by the FDA need to be simplified.",
+    "Regulation does not affect people’s opinions of new prescription drugs.",
+    "The USA has more regulatory bodies than most other countries.",
+    "Regulation fails to prevent misinformation from appearing in the media."
+]
+const questionTask8 = []
+const questionTask9 = [
+    "Campaigns designed to correct misinformation will fail to achieve their purpose if people are unable to understand them.",
+    "Attempts to teach elementary school students about misinformation have been opposed.",
+    "It may be possible to overcome the problem of misinformation in a relatively short period.",
+    "The need to keep up with new information is hugely exaggerated in today’s world."
+]
 
 DisplayPassages()
 DisplayQuestions()
@@ -164,11 +192,14 @@ function DisplayPassages(){
 
 function DisplayQuestions(){
     //TrueFalseQuestion(1, 7, questionsTask1,1);
-    ChooseOneWord(8,13,questionTask2,1);
+    //ChooseOneWord(8,13,questionTask2,1);
     //MatchingQuestion(14,19, questionTask3,2, readingPassage2.length);
     //ChooseLetters(20, 21, questionTask4)
     //ChooseLetters(22, 23, questionTask5)
-    ChooseOneWord(24,26, questionTask6, 2)
+    //ChooseOneWord(24,26, questionTask6, 2)
+    MultiChoice(27,30,questionTask7)
+
+    TrueFalseQuestion(37,40,questionTask9,3)
 }
 
 // function SetSectionQuestion(typeQuestion, start, end, questions, passageNum){
@@ -288,29 +319,45 @@ function ChooseLetters(start, end, questions){
     questionBlock.appendChild(document.createElement("hr"))
 }
 
-function MultiChoice(start, end, num, questions){
+function MultiChoice(start, end, questions){
     var questionBlock = document.getElementById("questionBlock");
     var title = document.createElement("p") 
-    title.innerHTML = `Questions ${start}-${end}<br>Choose <b>${questions[0]}</b> letters, <b>A-${String.fromCharCode(65+questions.length-3)}</b>.<br>`
-    title.innerHTML += `Which ${questions[0]} of the following statements ${questions[1]}`
+    title.innerHTML = `Questions ${start}-${end}<br>Choose the correct letter <b>A, B, C</b> or <b>D</b><br>`
     questionBlock.appendChild(title)
 
-    for(var i = 0; i < questions.length - 2; i ++){
-        var answerTitle = document.createElement("p")
-        answerTitle.innerHTML = `<b>${String.fromCharCode(65+i)}</b>. ${questions[i+2]}`
-        questionBlock.appendChild(answerTitle)
-    }
-
     for(var i = start; i <= end; i++){
-        var selectbox = document.createElement("select")
-        selectbox.id = `answer${i}`
-        for(var j = 0; j < questions.length - 2; j++){
-            var option = document.createElement('option')
-            option.value = `${String.fromCharCode(65+j)}`
-            option.innerHTML = `${String.fromCharCode(65+j)}`
-            selectbox.appendChild(option)
+        let newForm = document.createElement('form');
+        newForm.id = `q${i}`
+        var questionP = document.createElement('p');
+        questionP.innerHTML = `<b>${i}</b>. ${questions[(i-start)*5]}`;
+        questionBlock.appendChild(questionP);
+        
+        // Display 3 answers randomly
+        for(let j = 0; j < 4; j++){
+            // Radio button for each answer
+            let newRadioInput = document.createElement('input');
+            newRadioInput.type = 'radio';
+            newRadioInput.id = `q${i}-${j}`;
+            newRadioInput.value = String.fromCharCode(65+j);
+            newRadioInput.name = `q${i}`;
+            newForm.append(newRadioInput);
+
+            // Display answer
+            let newLabel = document.createElement('label');
+            newLabel.innerText = questions[(i-start)*5+j+1];
+            newLabel.htmlFor = `q${i}-${j}`;
+            let labelId = `labelq${i}-${j}`;
+            newLabel.id = labelId;
+            newLabel.classList.add('answerString');
+            newForm.append(newLabel);
+            newForm.append(document.createElement('br'));
         }
-        questionBlock.appendChild(selectbox)
+        questionBlock.append(newForm);
+
     }
     questionBlock.appendChild(document.createElement("hr"))
+}
+
+function MatchLetter(start, end, question){
+    
 }
